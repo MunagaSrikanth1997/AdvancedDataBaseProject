@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "8c74ccfd-2807-45ff-84ed-dc89334f3e12",
+		"name": "Banking Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26531245"
+	},
+	"item": [
+		{
+			"name": "GetUserAccounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/id"
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"Vishnu teja Ayyangar\",\r\n\"lastName\":\"Nallan Chakravartula\",\r\n\"middleName\":\"\",\r\n\"userId\":\"16328534\",\r\n\"password\":\"Vishnu@123\",\r\n\"address\":\"6818 W 141st Terr, overland park, KS ,66223\",\r\n\"mobile1\":\"+19137623072\",\r\n\"mobile2\":\"\",\r\n\"mail1\":\"ayyangarusa@gmail.com\",\r\n\"mail2\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8088/api/onlineBanking/register"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userId\":\"16328534\",\r\n\"password\":\"Vishnu@123\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8088/api/onlineBanking/login"
+			},
+			"response": []
+		},
+		{
+			"name": "openAccount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"accountName\":\"Krishna Checking account\",\r\n\"accountType\":\"CHK\"\r\n\r\n\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8088/api/onlineBanking/accounts/openAccount"
+			},
+			"response": []
+		},
+		{
+			"name": "getAccountsList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8088/api/onlineBanking/accounts/getAccountsList"
+			},
+			"response": []
+		},
+		{
+			"name": "makeInternalTransfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"fromAccount\":\"000463544668\",\r\n\"toAccount\":\"000514318109\",\r\n\"amount\":100\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8088/api/onlineBanking/transfer/makeInternalTransfer"
+			},
+			"response": []
+		},
+		{
+			"name": "cardTransfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"fromAccount\":\"000546458826\",\r\n\"toAccount\":\"000807998248\",\r\n\"amount\":1000,\r\n\"cardNumber\":\"456132339458863\",\r\n\"CVV\":\"\",\r\n\"validThroughDate\":\"\",\r\n\"nameOnCard\":\"\"\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8088/api/onlineBanking/card/cardTransfer"
+			},
+			"response": []
+		}
+	]
+}
