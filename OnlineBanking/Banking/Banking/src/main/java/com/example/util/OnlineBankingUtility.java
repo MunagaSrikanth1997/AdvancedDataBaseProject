@@ -72,4 +72,11 @@ public class OnlineBankingUtility {
 		}
 		return date;
 	}
+
+//	public static HttpSession createSession(HttpServletRequest session) {
+//
+//		return session.getSession(false);
+//
+//	}
+	
 }

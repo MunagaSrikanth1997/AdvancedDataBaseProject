@@ -15,6 +15,7 @@ import com.example.objects.Account;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/onlineBanking/accounts")
@@ -26,7 +27,13 @@ public class AccountsController {
 	@PostMapping("/openAccount")
 	public ResponseEntity<Account> openAccount(@RequestBody Account account, HttpServletRequest request,
 			HttpServletResponse response) {
-		account.setUserGuid("64ad75f7a66f7b1fddb64740");// extract it from session
+		HttpSession session=request.getSession(false);
+		if(null!=session && null!=session.getAttribute("USER_ID")) {
+			account.setUserGuid(session.getAttribute("USER_ID").toString());// extract it from session
+		}else {
+			//throw user session timeout error
+		}
+		
 		Account accountResponse = accountBusiness.openAccount(account);
 		return ResponseEntity.status(200).body(accountResponse);
 
@@ -34,7 +41,15 @@ public class AccountsController {
 
 	@GetMapping("/getAccountsList")
 	public ResponseEntity<List<Account>> getAccountsList(HttpServletRequest request, HttpServletResponse response) {
-		List<Account> accountList = accountBusiness.getAccountsList();
+		
+		HttpSession session=request.getSession(false);
+		String userId=null;
+		if(null!=session && null!=session.getAttribute("USER_ID")) {
+			userId=session.getAttribute("USER_ID").toString();// extract it from session
+		}else {
+			//throw user session timeout error
+		}
+		List<Account> accountList = accountBusiness.getAccountsList(userId);
 
 		return ResponseEntity.status(200).body(accountList);
 

@@ -43,9 +43,9 @@ public class AccountsBusinessImpl implements AccountsBusiness {
 	}
 
 	@Override
-	public List<Account> getAccountsList() {
+	public List<Account> getAccountsList(String userId) {
 		// TODO Auto-generated method stub
-		List<Account>accountsList=accountService.getAccountList();
+		List<Account>accountsList=accountService.getAccountList(userId);
 		return accountsList;
 	}
 

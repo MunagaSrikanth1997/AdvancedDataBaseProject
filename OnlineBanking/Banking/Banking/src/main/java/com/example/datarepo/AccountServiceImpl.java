@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.example.objects.Account;
 
-@Repository
+@Service
 public class AccountServiceImpl implements AccountsService {
 
 	private final MongoTemplate mongoTemplate;
@@ -34,9 +34,9 @@ public class AccountServiceImpl implements AccountsService {
 	}
 
 	@Override
-	public List<Account> getAccountList() {
+	public List<Account> getAccountList(String userId) {
 		// TODO Auto-generated method stub
-		Query getAccountsList = new Query(Criteria.where("userGuid").is("64ad75f7a66f7b1fddb64740"));
+		Query getAccountsList = new Query(Criteria.where("userGuid").is(userId));
 		List<Account> accountsList = mongoTemplate.find(getAccountsList, Account.class, collectionName);
 		return accountsList;
 	}

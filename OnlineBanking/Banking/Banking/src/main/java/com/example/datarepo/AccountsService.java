@@ -8,6 +8,6 @@ public interface AccountsService {
 
 	public Account openAccount(Account account);
 
-	public List<Account> getAccountList();
+	public List<Account> getAccountList(String userId);
 
 }

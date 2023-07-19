@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,19 +14,29 @@ import com.example.objects.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+
 
 @RestController
 @RequestMapping("/onlineBanking")
 public class LoginController {
-
+public LoginController() {
+	
+}
 	@Autowired
 	UserValidationBusiness userValidationBusiness;
 
 	@PostMapping("/login")
-	public ResponseEntity<User> customerLogin(@RequestBody User user, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ResponseEntity<User> customerLogin(HttpServletRequest request, 
+			HttpServletResponse response,@RequestBody User user) {
 		User userResponse = userValidationBusiness.userValidation(user);
 		if (null != userResponse) {
+			HttpSession session=request.getSession(true);
+			String sessionId = UUID.randomUUID().toString();
+			session.setAttribute("SESSION_ID", sessionId);
+			session.setAttribute("USER_ID", userResponse.getUserGuid());
+			session.setAttribute("USER_INFO", userResponse);
 			return ResponseEntity.status(200).body(userResponse);
 		} else {
 			return ResponseEntity.status(500).body(new User("Invalid Credentials", "500"));
