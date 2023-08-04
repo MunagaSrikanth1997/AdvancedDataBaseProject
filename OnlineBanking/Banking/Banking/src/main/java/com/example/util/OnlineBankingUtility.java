@@ -55,9 +55,9 @@ public class OnlineBankingUtility {
 			String validthroughDate) {
 
 		return cardDetailsInDB.getCardNumber().equals(cardNumber) && cardDetailsInDB.getCVV().equals(CVV)
-				&& cardDetailsInDB.getCardValidThroughDate()
-						.equals(cardValidThroughDateConverter("MM/yy", validthroughDate)) ? true : false;
-
+				 ? true : false;
+//&& cardDetailsInDB.getCardValidThroughDate()
+		//.equals(cardValidThroughDateConverter("MM/yy", validthroughDate))
 	}
 
 	public static Date cardValidThroughDateConverter(String inputDate, String dateFormat) {

@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.business.AccountsBusiness;
 import com.example.objects.Account;
+import com.example.objects.OpenAccount;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/onlineBanking/accounts")
@@ -25,30 +26,19 @@ public class AccountsController {
 	AccountsBusiness accountBusiness;
 
 	@PostMapping("/openAccount")
-	public ResponseEntity<Account> openAccount(@RequestBody Account account, HttpServletRequest request,
+	public ResponseEntity<String> openAccount(@RequestBody OpenAccount account, HttpServletRequest request,
 			HttpServletResponse response) {
-		HttpSession session=request.getSession(false);
-		if(null!=session && null!=session.getAttribute("USER_ID")) {
-			account.setUserGuid(session.getAttribute("USER_ID").toString());// extract it from session
-		}else {
-			//throw user session timeout error
-		}
 		
-		Account accountResponse = accountBusiness.openAccount(account);
-		return ResponseEntity.status(200).body(accountResponse);
+		//account.setUserGuid("64ad75f7a66f7b1fddb64740");
+		String status = accountBusiness.openAccount(account);
+		return ResponseEntity.status(200).body(status);
 
 	}
 
 	@GetMapping("/getAccountsList")
-	public ResponseEntity<List<Account>> getAccountsList(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<List<Account>> getAccountsList(@RequestParam("userGuid") String userId,HttpServletRequest request, HttpServletResponse response) {
 		
-		HttpSession session=request.getSession(false);
-		String userId=null;
-		if(null!=session && null!=session.getAttribute("USER_ID")) {
-			userId=session.getAttribute("USER_ID").toString();// extract it from session
-		}else {
-			//throw user session timeout error
-		}
+		System.out.println(userId);
 		List<Account> accountList = accountBusiness.getAccountsList(userId);
 
 		return ResponseEntity.status(200).body(accountList);

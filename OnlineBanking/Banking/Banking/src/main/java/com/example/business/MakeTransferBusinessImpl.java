@@ -14,7 +14,7 @@ public class MakeTransferBusinessImpl implements MakeTransferBusiness {
 	@Override
 	public String makeInternalTransfer(MakeTransfer makeTransfer) {
 		
-		String response=makeInternalTransferService.makeInternalTransfer(makeTransfer.getFromAccount(), makeTransfer.getToAccount(), makeTransfer.getAmount());
+		String response=makeInternalTransferService.makeInternalTransfer(makeTransfer.getUserId(),makeTransfer.getFromAccount(), null!=makeTransfer.getIsExternalAccount()&&makeTransfer.getIsExternalAccount().equalsIgnoreCase("on")?makeTransfer.getExternalAccountNumber():makeTransfer.getToAccount(), makeTransfer.getAmount());
 		
 		
 		

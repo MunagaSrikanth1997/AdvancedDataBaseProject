@@ -3,6 +3,7 @@ package com.example.datarepo;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,12 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.objects.Account;
 import com.example.objects.TransactionsData;
+import com.example.objects.User;
 @Service
 public class MakeInternalTransferServiceImpl implements MakeInternalAccountTransferService {
 
 	private final MongoTemplate mongoTemplate;
 	String collectionName = "CUSTOMER_ACCOUNT_DATA";
 	String TransactionCollection="TRANSACTION_DATA";
+	String userData = "CUSTOMER_DATA";
 
 	@Autowired
 	public MakeInternalTransferServiceImpl(MongoTemplate mongoTemplate) {
@@ -26,10 +29,11 @@ public class MakeInternalTransferServiceImpl implements MakeInternalAccountTrans
 	}
 
 	@Override
-	public String makeInternalTransfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
+	public String makeInternalTransfer(String userId,String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
 		// TODO Auto-generated method stub
 		Query fromAccounts = new Query(Criteria.where("accountNumber").is(fromAccountNumber));
 		Query toAccounts = new Query(Criteria.where("accountNumber").is(toAccountNumber));
+		Query customerInfo = null;
 		String statusMessage="";
 		TransactionsData trans=new TransactionsData();
 		try {
@@ -65,13 +69,23 @@ public class MakeInternalTransferServiceImpl implements MakeInternalAccountTrans
 				trans.setPaymentStatus("FAILED");
 				trans.setReason(statusMessage);
 			}
-			
+			trans.setUserId(userId);
+			trans.setTransactionId(UUID.randomUUID().toString());
+			trans.setUserGuid(fromAccount.getUserGuid());
 			trans.setPaymentSource(fromAccountNumber);
 			trans.setPaymentDestination(toAccountNumber);
 			trans.setAmount(amount);
 			trans.setPaymentType("Account pay Internal Transfer");
 			trans.setTransactionDate(new Date());
 			mongoTemplate.insert(trans, TransactionCollection);
+			if(!fromAccount.getUserGuid().equalsIgnoreCase(toAccount.getUserGuid())) {
+				customerInfo = new Query(Criteria.where("userGuid").is(toAccount.getUserGuid()));
+				List<User> profileInfo = mongoTemplate.find(customerInfo, User.class, userData);
+				trans.setUserId(profileInfo.get(0).getUserId());
+				trans.setUserGuid(toAccount.getUserGuid());
+				mongoTemplate.insert(trans, TransactionCollection);
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

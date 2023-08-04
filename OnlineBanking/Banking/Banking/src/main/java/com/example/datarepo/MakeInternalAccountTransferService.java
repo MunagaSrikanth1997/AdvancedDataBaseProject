@@ -5,6 +5,6 @@ import java.math.BigDecimal;
 public interface MakeInternalAccountTransferService {
 
 	
-	public String makeInternalTransfer(String fromAccount,String toAccount,BigDecimal amount);
+	public String makeInternalTransfer(String userId,String fromAccount,String toAccount,BigDecimal amount);
 	
 }

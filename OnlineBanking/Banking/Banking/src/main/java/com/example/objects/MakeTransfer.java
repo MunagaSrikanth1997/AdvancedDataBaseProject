@@ -17,12 +17,14 @@ public class MakeTransfer implements Serializable {
 	private String toAccount;
 	private String externalAccountNumber;
 	private String routingNumber;
-	private String isExternalAccountTransfer;
+	private String isExternalAccount;
 	private String cardNumber;
-	private String CVV;
+	private String cVV;
 	private String validThroughDate;
 	private String nameOnCard;
-
+	private String userGuid;
+	private String userId;
+private String paymentType;
 	private BigDecimal amount;
 
 	public String getFromAccount() {
@@ -57,12 +59,13 @@ public class MakeTransfer implements Serializable {
 		this.routingNumber = routingNumber;
 	}
 
-	public String getIsExternalAccountTransfer() {
-		return isExternalAccountTransfer;
+	
+	public String getIsExternalAccount() {
+		return isExternalAccount;
 	}
 
-	public void setIsExternalAccountTransfer(String isExternalAccountTransfer) {
-		this.isExternalAccountTransfer = isExternalAccountTransfer;
+	public void setIsExternalAccount(String isExternalAccount) {
+		this.isExternalAccount = isExternalAccount;
 	}
 
 	public BigDecimal getAmount() {
@@ -81,12 +84,13 @@ public class MakeTransfer implements Serializable {
 		this.cardNumber = cardNumber;
 	}
 
-	public String getCVV() {
-		return CVV;
+	
+	public String getcVV() {
+		return cVV;
 	}
 
-	public void setCVV(String cVV) {
-		CVV = cVV;
+	public void setcVV(String cVV) {
+		this.cVV = cVV;
 	}
 
 	public String getValidThroughDate() {
@@ -103,6 +107,30 @@ public class MakeTransfer implements Serializable {
 
 	public void setNameOnCard(String nameOnCard) {
 		this.nameOnCard = nameOnCard;
+	}
+
+	public String getUserGuid() {
+		return userGuid;
+	}
+
+	public void setUserGuid(String userGuid) {
+		this.userGuid = userGuid;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 }

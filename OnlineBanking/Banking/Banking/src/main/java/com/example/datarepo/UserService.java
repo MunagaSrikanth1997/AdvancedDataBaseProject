@@ -51,5 +51,12 @@ public class UserService {
 		
 		return userList;
 	}
+	public User getCustomerInformation(String userId) {
+		Query findById=new Query(Criteria.where("userId").is(userId));
+		List<User> userList=mongoTemplate.find(findById,User.class,collectionName);
+		System.out.println(userList);
+		
+		return null!=userList?userList.get(0):null;
+	}
 	
 }
