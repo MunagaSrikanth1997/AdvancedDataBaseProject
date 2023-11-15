@@ -26,7 +26,9 @@ public class UserValidationBusinessImpl implements UserValidationBusiness {
 
 	@Override
 	public String customerRegister(User user) {
+		System.out.println("Entering customerRegister business Method");
 		String businessRespo=userService.createCustomerCollectionAndInsert(user);
+		System.out.println("Exiting customerRegister business Method");
 		return businessRespo;
 
 	}

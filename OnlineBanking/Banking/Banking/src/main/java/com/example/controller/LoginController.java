@@ -47,7 +47,9 @@ public LoginController() {
 	@PostMapping("/register")
 
 	public ResponseEntity<String> customerRegister(@RequestBody User user) {
+		System.out.println("Entering Register Method");
 		String response = userValidationBusiness.customerRegister(user);
+		System.out.println("Exiting Register Method");
 		return ResponseEntity.status(200).body(response);
 	}
 

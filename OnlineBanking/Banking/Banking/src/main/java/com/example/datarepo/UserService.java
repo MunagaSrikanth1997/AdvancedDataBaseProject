@@ -24,23 +24,30 @@ public class UserService {
 
 	public String createCustomerCollectionAndInsert(User userData) {
 		String response=null;
-		if (!mongoTemplate.collectionExists(collectionName)) {
-			CollectionOptions options = CollectionOptions.empty().size(1024).capped();
-			 
-			mongoTemplate.createCollection(collectionName, options);
-			response="collection already exists";
-		} else {
-			Query findById=new Query(Criteria.where("userId").is(userData.getUserId()).and("password").is(userData.getPassword()));
-			if(!mongoTemplate.exists(findById, collectionName)) {
-			ObjectId objectId = new ObjectId();
-	        String guid = objectId.toString();
-	        userData.setUserGuid(guid);
-			mongoTemplate.insert(userData, collectionName);
-			response="userRegistered Successfully";
-			}else {
-				response="user already exists. please try with different userid";
+		System.out.println("Entering createCustomerCollectionAndInsert service Method");
+		try {
+			System.out.println("is collection exit:::::   " + !mongoTemplate.collectionExists(collectionName));
+			if (!mongoTemplate.collectionExists(collectionName)) {
+				CollectionOptions options = CollectionOptions.empty().size(1024);
+				 
+				mongoTemplate.createCollection(collectionName, options);
+				response="collection already exists";
+			} else {
+				Query findById=new Query(Criteria.where("userId").is(userData.getUserId()).and("password").is(userData.getPassword()));
+				if(!mongoTemplate.exists(findById, collectionName)) {
+				ObjectId objectId = new ObjectId();
+		        String guid = objectId.toString();
+		        userData.setUserGuid(guid);
+				mongoTemplate.insert(userData, collectionName);
+				response="userRegistered Successfully";
+				}else {
+					response="user already exists. please try with different userid";
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("error while reguistering the user");
 		}
+		
 		return response;
 
 	}
