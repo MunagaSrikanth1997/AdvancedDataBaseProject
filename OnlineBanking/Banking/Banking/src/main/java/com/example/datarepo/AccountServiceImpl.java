@@ -25,9 +25,19 @@ public class AccountServiceImpl implements AccountsService {
 	@Override
 	public Account openAccount(Account account) {
 		// TODO Auto-generated method stub
-		Query checkAccountNumber = new Query(Criteria.where("accountNumber").is(account.getAccountNumber()));
-		// if(!mongoTemplate.exists(checkAccountNumber, collectionName)) {
-		Account response = mongoTemplate.insert(account, collectionName);
+		System.out.println("AccountServiceImpl: Entering openAccount");
+		Account response=null;
+		try {
+			Query checkAccountNumber = new Query(Criteria.where("accountNumber").is(account.getAccountNumber()));
+			// if(!mongoTemplate.exists(checkAccountNumber, collectionName)) {
+			 response = mongoTemplate.insert(account, collectionName);
+			 System.out.println("AccountServiceImpl: Exiting openAccount");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Exception in AccountServiceImpl");
+			System.out.println(e.getStackTrace());
+		}
+		
 		// }
 
 		return response;

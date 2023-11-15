@@ -28,9 +28,10 @@ public class AccountsController {
 	@PostMapping("/openAccount")
 	public ResponseEntity<String> openAccount(@RequestBody OpenAccount account, HttpServletRequest request,
 			HttpServletResponse response) {
-		
+		System.out.println("AccountsController: Entering open account method ");
 		//account.setUserGuid("64ad75f7a66f7b1fddb64740");
 		String status = accountBusiness.openAccount(account);
+		System.out.println("Exiting: Entering open account method ");
 		return ResponseEntity.status(200).body(status);
 
 	}

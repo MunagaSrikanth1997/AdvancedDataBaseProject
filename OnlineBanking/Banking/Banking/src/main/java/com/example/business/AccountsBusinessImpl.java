@@ -25,35 +25,44 @@ public class AccountsBusinessImpl implements AccountsBusiness {
 	@Override
 	public String openAccount(OpenAccount openNewAccount) {
 		String response=null;
-		User user=userService.getCustomerInformation(openNewAccount.getUserId());
-		if(null==user) {
-			return "user Does Not Exists";
-		}
-Account account=new Account();
-account.setAccountName(openNewAccount.getAccountName());
-		account.setAccountNumber(OnlineBankingUtility.generateRandomAccountNumber());
-		account.setAccountStatus("OPEN");
-		account.setcINNumber(OnlineBankingUtility.generateCintNumber());
-		account.setAccountOpenedData(new Date());
-		account.setUserGuid(user.getUserGuid());
-		if(openNewAccount.isDebitCardRequired()) {
-			account.setDebitCardAvailable(openNewAccount.isDebitCardRequired());
-			PaymentCardDetails cardDetails = new PaymentCardDetails();
-			cardDetails.setAccountNumber(account.getAccountNumber());
-			cardDetails.setCardIssuedDate(new Date());
-			cardDetails.setCardType("VISA");// need add some logic to change card types
-			cardDetails.setUserGuid(user.getUserGuid());
-			cardDetails.setCVV(OnlineBankingUtility.generateCVV());
-			cardDetails.setCardValidThroughDate(OnlineBankingUtility.cardValidThrough());
-			cardDetails.setIsCreditCard(false);
-			cardDetails.setCardNumber(OnlineBankingUtility.generateFifteenDigitNumber());
-			account.setCardsList(cardDetails);
+		System.out.println("AccountsBusinessImpl: Entering open account method ");
+		try {
+			User user=userService.getCustomerInformation(openNewAccount.getUserId());
+			if(null==user) {
+				return "user Does Not Exists";
+			}
+	Account account=new Account();
+	account.setAccountName(openNewAccount.getAccountName());
+			account.setAccountNumber(OnlineBankingUtility.generateRandomAccountNumber());
+			account.setAccountStatus("OPEN");
+			account.setcINNumber(OnlineBankingUtility.generateCintNumber());
+			account.setAccountOpenedData(new Date());
+			account.setUserGuid(user.getUserGuid());
+			if(openNewAccount.isDebitCardRequired()) {
+				account.setDebitCardAvailable(openNewAccount.isDebitCardRequired());
+				PaymentCardDetails cardDetails = new PaymentCardDetails();
+				cardDetails.setAccountNumber(account.getAccountNumber());
+				cardDetails.setCardIssuedDate(new Date());
+				cardDetails.setCardType("VISA");// need add some logic to change card types
+				cardDetails.setUserGuid(user.getUserGuid());
+				cardDetails.setCVV(OnlineBankingUtility.generateCVV());
+				cardDetails.setCardValidThroughDate(OnlineBankingUtility.cardValidThrough());
+				cardDetails.setIsCreditCard(false);
+				cardDetails.setCardNumber(OnlineBankingUtility.generateFifteenDigitNumber());
+				account.setCardsList(cardDetails);
+			}
+			
+			account.setAvailableBlance(openNewAccount.getDepositAmount());
+			account.setRoutingNumber(OnlineBankingUtility.generateRoutingNumber());
+			
+			Account accountServiceReponse = accountService.openAccount(account);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Exception in AccountsBusinessImpl openAccount method");
+			System.out.println(e.getStackTrace());
 		}
 		
-		account.setAvailableBlance(openNewAccount.getDepositAmount());
-		account.setRoutingNumber(OnlineBankingUtility.generateRoutingNumber());
-		
-		Account accountServiceReponse = accountService.openAccount(account);
+		System.out.println("AccountsBusinessImpl: Exiting open account method ");
 		return "Account Opened Successfully";
 	}
 
