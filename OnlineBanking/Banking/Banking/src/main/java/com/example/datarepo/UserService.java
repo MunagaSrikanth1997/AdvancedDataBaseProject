@@ -10,7 +10,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.example.emailnotification.EmailNotification;
 import com.example.objects.User;
+import com.example.secretsmanager.SecretsManager;
 
 @Service
 public class UserService {
@@ -21,6 +23,12 @@ public class UserService {
 
 		this.mongoTemplate = mongoTemplate;
 	}
+	@Autowired
+	public EmailNotification emailNotification;
+	@Autowired
+	SecretsManager secretsManager;
+//	@Autowired
+//	public EmailNotoficationSMTP emailNotification;
 
 	public String createCustomerCollectionAndInsert(User userData) {
 		String response=null;
@@ -39,7 +47,9 @@ public class UserService {
 		        String guid = objectId.toString();
 		        userData.setUserGuid(guid);
 				mongoTemplate.insert(userData, collectionName);
-				response="userRegistered Successfully";
+				response="user Registered Successfully";
+				emailNotification.sendEmailNotification(userData.getMail1(),"Registered","you are successfully Registered");
+				
 				}else {
 					response="user already exists. please try with different userid";
 				}
