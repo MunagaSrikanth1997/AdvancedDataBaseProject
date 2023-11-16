@@ -16,8 +16,7 @@ public class CredentialsProviderConfig {
 	// AwsCredentialsProvider awsCredentialsProvider =
 	// DefaultCredentialsProvider.builder().build();
 
-	String accessKey = "AKIA4JRIPIS7HVQP6JSX";
-	String secretKey = "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";
+	
 
 	@Bean
 	public AwsCredentialsProvider getAwsCredentials() {
