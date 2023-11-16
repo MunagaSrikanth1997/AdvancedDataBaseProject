@@ -50,7 +50,7 @@ public class MongoDbConnectionConfig extends AbstractMongoClientConfiguration {
 		}
     	String connectionUri=String.format(mongoUri, mySecret.getUsername(), mySecret.getPassword(), mySecret.getHost(), mySecret.getPort());
         ConnectionString connectionString = new ConnectionString(connectionUri);
-        database=mySecret.getDbClusterIdentifier();
+        //database=mySecret.getDbClusterIdentifier();
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString).applyToSocketSettings(builder -> builder.connectTimeout(30000, TimeUnit.MILLISECONDS).readTimeout(30000, TimeUnit.MILLISECONDS))
                 .build();
@@ -58,11 +58,11 @@ public class MongoDbConnectionConfig extends AbstractMongoClientConfiguration {
         return MongoClients.create(mongoClientSettings);
     }
 //
-//	@Override
-//	protected String getDatabaseName() {
-//		// TODO Auto-generated method stub
-//		return "cloudcomputing";
-//	}
+	@Override
+	protected String getDatabaseName() {
+		// TODO Auto-generated method stub
+		return "cloudcomputing";
+	}
 //	 @Value("${spring.data.mongodb.host}")
 //	    private String host;
 //
@@ -72,10 +72,10 @@ public class MongoDbConnectionConfig extends AbstractMongoClientConfiguration {
 //	    @Value("${spring.data.mongodb.database}")
 //	    private String database;
 //
-	    @Override
-	    protected String getDatabaseName() {
-	        return database;
-	    }
+//	    @Override
+//	    protected String getDatabaseName() {
+//	        return database;
+//	    }
 
 //	    @Override
 //	    public MongoClient mongoClient() {
