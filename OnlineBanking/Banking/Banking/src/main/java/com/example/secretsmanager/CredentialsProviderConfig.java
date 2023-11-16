@@ -4,8 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Configuration
 @Order(1)
@@ -14,15 +16,17 @@ public class CredentialsProviderConfig {
 	// AwsCredentialsProvider awsCredentialsProvider =
 	// DefaultCredentialsProvider.builder().build();
 
+	String accessKey = "AKIA4JRIPIS7HVQP6JSX";
+	String secretKey = "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";
 
 	@Bean
 	public AwsCredentialsProvider getAwsCredentials() {
 		// Alternatively, you can specify credentials directly
-		// AwsCredentials awsCredentials = AwsBasicCredentials.create(accessKey,
-		// secretKey);
-		// AwsCredentialsProvider awsCredentialsProvider =
-		// StaticCredentialsProvider.create(awsCredentialsProvider);
-		AwsCredentialsProvider awsCredentialsProvider = DefaultCredentialsProvider.builder().build();
+		 AwsCredentials awsCredentials = AwsBasicCredentials.create(accessKey,
+		 secretKey);
+		 AwsCredentialsProvider awsCredentialsProvider =
+		 StaticCredentialsProvider.create(awsCredentials);
+		//AwsCredentialsProvider awsCredentialsProvider = DefaultCredentialsProvider.builder().build();
 		return awsCredentialsProvider;
 	}
 
