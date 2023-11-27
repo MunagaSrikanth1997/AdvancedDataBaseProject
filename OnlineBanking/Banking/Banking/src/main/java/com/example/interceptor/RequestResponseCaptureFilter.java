@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -47,10 +48,10 @@ public class RequestResponseCaptureFilter extends OncePerRequestFilter {
 			byte[] responseBody = responseWrapper.getContentAsByteArray();
 			String responseBodyString = new String(responseBody);
 			logger.info("Captured Response Body: " + responseBodyString);
-			
+			String data=StringUtils.isEmpty(requestBodyString) && StringUtils.isEmpty(responseBodyString)?"error":requestBodyString + responseBodyString;
 			sQSConfig.getSqsClient()
 					.sendMessage(builder -> builder.queueUrl(sQSConfig.getSQSQueueUrlByQueueName("OnlineBankingAudit"))
-							.messageBody(requestBodyString + responseBodyString));
+							.messageBody(data));
 			// Write the response body to the original response
 			responseWrapper.copyBodyToResponse();
 		}
