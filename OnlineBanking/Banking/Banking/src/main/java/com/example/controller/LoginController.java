@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.business.UserValidationBusiness;
 import com.example.objects.User;
-
+import com.example.errorobjects.Error;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -39,7 +39,7 @@ public LoginController() {
 			session.setAttribute("USER_INFO", userResponse);
 			return ResponseEntity.status(200).body(userResponse);
 		} else {
-			return ResponseEntity.status(500).body(new User("Invalid Credentials", "500"));
+			return ResponseEntity.status(500).body(new User().setError(new Error("Invalid Credentials", "500")));
 		}
 
 	}

@@ -5,12 +5,13 @@ import java.io.Serializable;
 import com.example.errorobjects.Error;
 import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User extends Error implements Serializable{
+public class User implements Serializable {
 
-	public User(String errorMessage, String errorCode) {
-		super(errorMessage, errorCode);
+	public User() {
+		
 		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * 
 	 */
@@ -26,6 +27,7 @@ public class User extends Error implements Serializable{
 	private String mail1;
 	private String mail2;
 	private String userGuid;
+	private Error error;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -91,6 +93,13 @@ public class User extends Error implements Serializable{
 	}
 	public void setUserGuid(String userGuid) {
 		this.userGuid = userGuid;
+	}
+	public Error getError() {
+		return error;
+	}
+	public User setError(Error error) {
+		this.error = error;
+		return this;
 	}
 
 	
